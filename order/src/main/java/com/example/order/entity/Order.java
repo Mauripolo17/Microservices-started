@@ -4,11 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +21,11 @@ public class Order {
     @Column(nullable = false)
     private LocalDate date;
 
+    @ElementCollection // Permite almacenar listas de valores simples en la base de datos
     @Column(nullable = false)
-    private Long payment;
+    private List<UUID> product;
+
+    @Column(nullable = false)
+    private UUID payment;
 
 }
