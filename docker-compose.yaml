@@ -1,0 +1,109 @@
+services:
+  order-postgres:
+    image: postgres:15-alpine
+    container_name: order_postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd1
+      POSTGRES_DB: orderdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - order_pgdata:/var/lib/postgresql/data
+
+  order-service:
+    container_name: order-service
+    build:
+      context: order
+      dockerfile: Dockerfile
+    depends_on:
+      - order-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://order-postgres:5432/orderdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pwd1
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8081:8081"
+
+  inventory-postgres:
+    image: postgres:15-alpine
+    container_name: inventory_postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd2
+      POSTGRES_DB: inventorydb
+    ports:
+      - "5434:5432"
+    volumes:
+      - inventory_pgdata:/var/lib/postgresql/data
+
+  inventory-service:
+    container_name: inventory-service
+    build:
+      context: ./inventory-service
+      dockerfile: Dockerfile
+    depends_on:
+      - inventory-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://inventory-postgres:5432/inventorydb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pwd2
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8083:8083"
+
+  payment-postgres:
+    image: postgres:15-alpine
+    container_name: payment_postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd3
+      POSTGRES_DB: paymentdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - payment_pgdata:/var/lib/postgresql/data
+
+  payment-service:
+    container_name: payment-service
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    depends_on:
+      - inventory-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5434/paymentdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pwd3
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8084:8084"
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  product-service:
+    container_name: product-service
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
+
+    ports:
+      - "8082:8082"
+volumes:
+  order_pgdata:
+  inventory_pgdata:
+  payment_pgdata:
+  mongo_data:
+
+
