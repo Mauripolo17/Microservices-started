@@ -41,7 +41,7 @@ services:
   inventory-service:
     container_name: inventory-service
     build:
-      context: ./inventory-service
+      context: ./inventory
       dockerfile: Dockerfile
     depends_on:
       - inventory-postgres
@@ -68,7 +68,7 @@ services:
   payment-service:
     container_name: payment-service
     build:
-      context: ./payment-service
+      context: ./payment
       dockerfile: Dockerfile
     depends_on:
       - inventory-postgres
@@ -91,7 +91,7 @@ services:
   product-service:
     container_name: product-service
     build:
-      context: ./product-service
+      context: ./product
       dockerfile: Dockerfile
     depends_on:
       - mongo
