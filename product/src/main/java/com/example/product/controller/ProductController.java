@@ -21,28 +21,27 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Mono<Product> getProduct(@PathVariable("id") UUID id) {
-        return Mono.justOrEmpty(productService.getProductById(id));
+        return Mono.fromCallable(()->productService.getProductById(id).orElse(null));
     }
 
     @GetMapping
-    public Flux<List<Product>> getAllProducts() {
-        return Flux.just(productService.getAllProducts());
+    public Flux<Product> getAllProducts() {
+        return Flux.fromIterable(productService.getAllProducts());
     }
 
     @PostMapping
     public Mono<Product> createProduct(@RequestBody Product product) {
-        return Mono.just(productService.saveProduct(product));
+        return Mono.fromCallable(()->productService.saveProduct(product));
     }
 
 
     @PutMapping("/{id}")
     public Mono<Product> updateProduct(@PathVariable("id") UUID id, @RequestBody Product product) {
-        return Mono.justOrEmpty(productService.updateProduct(id, product));
+        return Mono.fromCallable(()->productService.updateProduct(id, product).orElse(null));
     }
 
     @DeleteMapping("/{id}")
     public Mono<Void> deleteProduct(@PathVariable("id") UUID id) {
-        productService.deleteProduct(id);
-        return Mono.empty();
+        return Mono.fromRunnable(()->productService.deleteProduct(id));
     }
 }
