@@ -21,28 +21,27 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public Mono<Order> getOrderByID(@PathVariable("id") UUID id) {
-        return Mono.justOrEmpty(orderService.findById(id));
+        return Mono.fromCallable(()->orderService.findById(id).orElse(null));
     }
 
    @GetMapping
-   public Flux<List<Order>> getAllOrders() {
-        return Flux.just(orderService.findAll());
+   public Flux<Order> getAllOrders() {
+        return Flux.fromIterable(orderService.findAll());
    }
 
    @PostMapping
     public Mono<Order> createOrder(@RequestBody Order order) {
-        return Mono.justOrEmpty(orderService.save(order));
+        return Mono.fromCallable(() -> orderService.save(order));
    }
 
    @PutMapping("{id}")
     public Mono<Order> updateOrder(@PathVariable("id") UUID id, @RequestBody Order order) {
-        return Mono.justOrEmpty(orderService.save(order));
+        return Mono.fromCallable(()->orderService.updateOrder(id, order).orElse(null));
    }
 
    @DeleteMapping("{id]")
     public Mono<Void> deleteOrder(@PathVariable("id") UUID id) {
-        orderService.deleteById(id);
-       return null;
+        return Mono.fromRunnable(() -> orderService.deleteById(id));
    }
 
 }
