@@ -13,7 +13,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private PaymentRepository paymentRepository;
 
-    PaymentServiceImpl(PaymentRepository paymentRepository) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 
