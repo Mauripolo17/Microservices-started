@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,8 +18,8 @@ public class InventoryController {
     }
 
     @GetMapping
-    public Flux<List<Inventory>> getAllInventories() {
-        return Flux.just(inventoryService.findAll());
+    public Flux<Inventory> getAllInventories() {
+        return Flux.fromIterable(inventoryService.findAll());
     }
 
     @GetMapping("/{id}")
