@@ -1,9 +1,8 @@
 package com.example.order.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -12,20 +11,49 @@ import java.util.UUID;
 @Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
     private LocalDate date;
 
     @ElementCollection // Permite almacenar listas de valores simples en la base de datos
-    @Column(nullable = false)
-    private List<UUID> product;
+    private List<UUID> products;
 
     @Column(nullable = false)
     private UUID payment;
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public List<UUID> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<UUID> products) {
+        this.products = products;
+    }
+
+    public UUID getPayment() {
+        return payment;
+    }
+
+    public void setPayment(UUID payment) {
+        this.payment = payment;
+    }
 }
