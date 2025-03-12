@@ -33,8 +33,8 @@ public class PaymentController {
         return Mono.justOrEmpty(paymentService.createPayment(payment));
     }
 
-    @PutMapping()
-    public Mono<Payment> updatePayment(@RequestBody Payment payment, UUID id){
+    @PutMapping("/{id}")
+    public Mono<Payment> updatePayment(@PathVariable("id") UUID id, @RequestBody Payment payment){
         return Mono.justOrEmpty(paymentService.updatePayment(payment, id));
     }
 
