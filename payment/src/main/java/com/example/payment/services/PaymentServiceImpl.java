@@ -4,6 +4,7 @@ import com.example.payment.entities.Payment;
 import com.example.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Optional<Payment> getPaymentById(UUID id) {
         return paymentRepository.findById(id);
+    }
+
+    @Override
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
     }
 
     @Override
@@ -41,4 +47,6 @@ public class PaymentServiceImpl implements PaymentService {
     public void deletePayment(UUID id) {
          paymentRepository.deleteById(id);
     }
+
+
 }

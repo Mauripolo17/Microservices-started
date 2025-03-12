@@ -3,6 +3,7 @@ package com.example.payment.controllers;
 import com.example.payment.entities.Payment;
 import com.example.payment.services.PaymentService;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -15,6 +16,11 @@ public class PaymentController {
 
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
+    }
+
+    @GetMapping()
+    public Flux<Payment> getPayments() {
+        return Flux.fromIterable(paymentService.getAllPayments());
     }
 
     @GetMapping("/{id}")
