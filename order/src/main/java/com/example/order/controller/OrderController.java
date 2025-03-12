@@ -34,12 +34,12 @@ public class OrderController {
         return Mono.fromCallable(() -> orderService.save(order));
    }
 
-   @PutMapping("{id}")
+   @PutMapping("/{id}")
     public Mono<Order> updateOrder(@PathVariable("id") UUID id, @RequestBody Order order) {
         return Mono.fromCallable(()->orderService.updateOrder(id, order).orElse(null));
    }
 
-   @DeleteMapping("{id]")
+   @DeleteMapping("/{id}")
     public Mono<Void> deleteOrder(@PathVariable("id") UUID id) {
         return Mono.fromRunnable(() -> orderService.deleteById(id));
    }
