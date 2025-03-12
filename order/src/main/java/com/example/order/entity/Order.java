@@ -13,13 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
     private LocalDate date;
 
-    @ElementCollection // Permite almacenar listas de valores simples en la base de datos
+    @ElementCollection(fetch = FetchType.EAGER) // Permite almacenar listas de valores simples en la base de datos
     private List<UUID> products;
 
     @Column(nullable = false)

@@ -73,7 +73,7 @@ class OrderControllerTest {
                 .consumeWith(response -> {
                     Order order = response.getResponseBody();
                     assertNotNull(order);
-                    assertEquals("Order date: ", order.getDate());
+                    assertEquals(LocalDate.parse("2023-09-12"), order.getDate());
                 });
 
     }
@@ -88,7 +88,7 @@ class OrderControllerTest {
                 .consumeWith(response -> {
                     List<Order> order = response.getResponseBody();
                     assertNotNull(order);
-                    assertEquals("Order date: ", order.get(0).getDate());
+                    assertEquals(LocalDate.parse("2023-09-12"), order.get(0).getDate());
                 });
     }
 
@@ -108,7 +108,7 @@ class OrderControllerTest {
                 .consumeWith(response -> {
                             Order order = response.getResponseBody();
                             assertNotNull(order);
-                            assertEquals("Order date: ", order.getDate());
+                            assertEquals(LocalDate.parse("2023-09-12"), order.getDate());
                         }
                 );
 
@@ -129,7 +129,7 @@ class OrderControllerTest {
                 .consumeWith(response -> {
                     Order order = response.getResponseBody();
                     assertNotNull(order);
-                    assertEquals("Updated Order date: ", order.getDate());
+                    assertEquals(LocalDate.parse("2023-09-12"), order.getDate());
                 });
     }
 
