@@ -1,4 +1,13 @@
 services:
+  eureka-server:
+  build:
+    context: ./eureka-server
+    dockerfile: Dockerfile
+  container_name: eureka-server
+  ports:
+    - "8761:8761"
+  networks:
+    - eureka-network
   order-postgres:
     image: postgres:15-alpine
     container_name: order_postgres_db
@@ -105,5 +114,4 @@ volumes:
   inventory_pgdata:
   payment_pgdata:
   mongo_data:
-
 
