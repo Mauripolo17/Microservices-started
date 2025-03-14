@@ -9,6 +9,19 @@ services:
     networks:
       - eureka-network
 
+  eureka-client:
+    build:
+      context: ./eureka-client
+      dockerfile: Dockerfile
+    ports:
+      - "8080"
+    environment:
+      EUREKA_SERVER_URL: "http://eureka-server:8761/eureka/"
+    networks:
+      - eureka-network
+    deploy:
+      replicas: 3
+
   order-postgres:
     image: postgres:15-alpine
     container_name: order_postgres_db
