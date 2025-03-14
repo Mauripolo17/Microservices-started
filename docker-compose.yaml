@@ -21,6 +21,17 @@ services:
       - eureka-network
     deploy:
       replicas: 3
+    depends_on:
+      - eureka-server
+
+  service-discovery:
+    build:
+      context: ./service-discovery
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - eureka-network
 
   order-postgres:
     image: postgres:15-alpine
