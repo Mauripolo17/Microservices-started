@@ -32,6 +32,7 @@ services:
     networks:
       - eureka-network
 
+
   order-service:
     container_name: order-service
     build:
@@ -44,9 +45,8 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd1
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      EUREKA_SERVER_URL: "http://eureka-server:8761/eureka/"
     ports:
-      - "8081:8081"
+      - "8085:8085"
     networks:
       - eureka-network
 
@@ -64,6 +64,9 @@ services:
     networks:
       - eureka-network
 
+
+
+
   inventory-service:
     container_name: inventory-service
     build:
@@ -76,11 +79,11 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd2
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      EUREKA_SERVER_URL: "http://eureka-server:8761/eureka/"
     ports:
       - "8083:8083"
     networks:
       - eureka-network
+
 
   payment-postgres:
     image: postgres:15-alpine
@@ -96,6 +99,7 @@ services:
     networks:
       - eureka-network
 
+
   payment-service:
     container_name: payment-service
     build:
@@ -104,11 +108,10 @@ services:
     depends_on:
       - inventory-postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5434/paymentdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/paymentdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd3
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      EUREKA_SERVER_URL: "http://eureka-server:8761/eureka/"
     ports:
       - "8084:8084"
     networks:
@@ -133,7 +136,6 @@ services:
       - mongo
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
-      EUREKA_SERVER_URL: "http://eureka-server:8761/eureka/"
     ports:
       - "8082:8082"
     networks:
