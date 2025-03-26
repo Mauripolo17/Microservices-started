@@ -64,9 +64,6 @@ services:
     networks:
       - eureka-network
 
-
-
-
   inventory-service:
     container_name: inventory-service
     build:
@@ -106,7 +103,7 @@ services:
       context: ./payment
       dockerfile: Dockerfile
     depends_on:
-      - inventory-postgres
+      - payment-postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/paymentdb
       SPRING_DATASOURCE_USERNAME: user
