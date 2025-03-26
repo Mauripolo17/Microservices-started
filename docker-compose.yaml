@@ -18,6 +18,24 @@ services:
     networks:
       - eureka-network
 
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - product-service
+      - order-service
+      - payment-service
+      - inventory-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8089:8080"
+    networks:
+        - eureka-network
+
   order-postgres:
     image: postgres:15-alpine
     container_name: order_postgres_db

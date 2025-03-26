@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-server" />
         <module name="service-discovery" />
+        <module name="gateway" />
       </profile>
       <profile name="Annotation profile for product" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -33,6 +34,7 @@
       <module name="Order" options="-parameters" />
       <module name="eureka-client" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="inventory" options="-parameters" />
       <module name="order" options="-parameters" />
       <module name="payment" options="-parameters" />
