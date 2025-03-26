@@ -25,8 +25,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public Flux<List<Product>> getAllProducts() {
-        return Flux.just(productService.getAllProducts());
+    public Flux<Product> getAllProducts() {
+        return Flux.fromIterable(productService.getAllProducts());
     }
 
     @PostMapping
