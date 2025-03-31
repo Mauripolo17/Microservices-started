@@ -114,6 +114,15 @@ services:
     networks:
       - eureka-network
 
+  redis:
+    image: redis
+    container_name: redis
+    command: [ "redis-server", "--bind", "0.0.0.0" ]
+    ports:
+      - "6379:6379"
+    networks:
+      - eureka-network
+
 
   payment-service:
     container_name: payment-service
@@ -122,11 +131,14 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - payment-postgres
+      - redis
     environment:
+      SPRING_DATA_REDIS_HOST: localhost
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_CACHE_TYPE: redis
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/paymentdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd3
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8084:8084"
     networks:
@@ -150,11 +162,15 @@ services:
     depends_on:
       - mongo
     environment:
+
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
+
     ports:
       - "8082:8082"
     networks:
       - eureka-network
+
+
 
 volumes:
   order_pgdata:
