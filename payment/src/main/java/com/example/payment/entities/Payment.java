@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,13 +17,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
     private String description;
+   private LocalDateTime date;
 
     public UUID getId() {
         return id;
@@ -64,18 +65,7 @@ public class Payment {
         this.transactionId = transactionId;
     }
 
-//    public UUID getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(UUID order) {
-//        this.order = order;
-//    }
-
-    private LocalDateTime date;
-
     private BigDecimal amount;
-
     private String transactionId;
 //
 //    private UUID order;

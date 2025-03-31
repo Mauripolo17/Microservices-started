@@ -3,6 +3,7 @@ package com.example.payment.services;
 import com.example.payment.entities.Payment;
 import com.example.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Cacheable("getAllPayments")
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
     }
