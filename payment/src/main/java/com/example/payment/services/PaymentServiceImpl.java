@@ -4,17 +4,20 @@ import com.example.payment.entities.Payment;
 import com.example.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
 
     public PaymentServiceImpl(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
@@ -26,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable("getAllPayments")
+    @Cacheable(value = "payments", key = "'allPayments'")
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
     }

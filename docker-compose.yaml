@@ -31,6 +31,8 @@ services:
       - inventory-service
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     ports:
       - "8089:8080"
     networks:
@@ -133,12 +135,13 @@ services:
       - payment-postgres
       - redis
     environment:
-      SPRING_DATA_REDIS_HOST: localhost
+      SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_CACHE_TYPE: redis
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/paymentdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd3
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
     ports:
       - "8084:8084"
     networks:

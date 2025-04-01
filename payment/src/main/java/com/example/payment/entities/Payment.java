@@ -1,5 +1,6 @@
 package com.example.payment.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +24,9 @@ public class Payment implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String description;
-   private LocalDateTime date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime date;
 
     public UUID getId() {
         return id;
