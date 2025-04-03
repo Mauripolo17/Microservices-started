@@ -165,9 +165,7 @@ services:
     depends_on:
       - mongo
     environment:
-
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
-
     ports:
       - "8082:8082"
     networks:

@@ -4,23 +4,17 @@ import com.example.product.entity.Product;
 import com.example.product.repository.ProductRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.data.redis.core.RedisTemplate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
 
-    private final RedisTemplate<String, Object> redisTemplate;
-
-
-    public ProductServiceImp(ProductRepository productRepository, RedisTemplate<String, Object> redisTemplate) {
+    public ProductServiceImp(ProductRepository productRepository ) {
         this.productRepository = productRepository;
-        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -31,14 +25,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Cacheable(value = "getAllProducts")
     public List<Product> getAllProducts() {
-
-        List<Product> cachedProducts = (List<Product>) redisTemplate.opsForValue().get("getAllProducts");
-        if (cachedProducts != null) {
-            return cachedProducts;
-        }
-        List<Product> products = productRepository.findAll();
-        redisTemplate.opsForValue().set("getAllProducts", products, 10, TimeUnit.MINUTES);
-        return products;
+        return productRepository.findAll();
     }
     @Override
     public void deleteProduct(UUID id) {
@@ -47,6 +34,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public Product saveProduct(Product product) {
+        product.setId(UUID.randomUUID());
         return productRepository.save(product);
     }
 
