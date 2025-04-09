@@ -23,7 +23,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "getAllProducts")
+    @Cacheable(value = "products", key = "'allProducts'")
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }

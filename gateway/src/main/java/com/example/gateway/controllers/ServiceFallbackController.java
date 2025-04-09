@@ -25,7 +25,7 @@ public class ServiceFallbackController {
 
     @GetMapping("/Product")
     public ResponseEntity<Object> getCachedProducts() {
-        Object products = redisTemplate.opsForValue().get("getAllProducts");
+        Object products = redisTemplate.opsForValue().get("products::allProducts");
 
         if (products != null) {
             return ResponseEntity.ok(products);

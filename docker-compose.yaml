@@ -165,6 +165,10 @@ services:
     depends_on:
       - mongo
     environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_CACHE_TYPE: redis
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
     ports:
       - "8082:8082"
