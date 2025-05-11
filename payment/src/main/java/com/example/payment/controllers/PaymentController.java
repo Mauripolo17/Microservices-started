@@ -2,6 +2,9 @@ package com.example.payment.controllers;
 
 import com.example.payment.entities.Payment;
 import com.example.payment.services.PaymentService;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,6 +16,7 @@ import java.util.UUID;
 public class PaymentController {
 
     private  final PaymentService paymentService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
 
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
@@ -20,6 +24,11 @@ public class PaymentController {
 
     @GetMapping()
     public Flux<Payment> getPayments() {
+        MDC.put("requestId", "abc123");
+        MDC.put("userId", "42");
+        LOGGER.info("Procesando la solicitud del usuario");
+        MDC.clear();
+
         return Flux.fromIterable(paymentService.getAllPayments());
     }
 
@@ -42,6 +51,7 @@ public class PaymentController {
     public Mono<Void> deletePayment(@PathVariable UUID id) {
         return Mono.fromRunnable(() -> paymentService.deletePayment(id));
     }
+
 
 
 }
