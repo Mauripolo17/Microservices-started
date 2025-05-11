@@ -41,7 +41,7 @@ public class ServiceFallbackController {
         if (payments != null) {
             return ResponseEntity.ok(payments);
         } else {
-            return ResponseEntity.status(503).body("No hay payments en caché");
+            return ResponseEntity.status(503).body("Payment service is currently unavailable. Please try again later.");
         }
     }
 }
