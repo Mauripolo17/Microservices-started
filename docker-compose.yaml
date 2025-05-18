@@ -146,6 +146,7 @@ services:
       - "8084:8084"
     networks:
       - eureka-network
+      - loki
 
   mongo:
     image: mongo:6.0
@@ -213,6 +214,16 @@ services:
       - "3000:3000"
     networks:
       - loki
+      - eureka-network
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - eureka-network
 
   keycloak:
     container_name: keycloak
