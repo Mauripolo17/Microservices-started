@@ -37,6 +37,7 @@ services:
       - "8089:8080"
     networks:
         - eureka-network
+        - loki
 
   order-postgres:
     image: postgres:15-alpine
@@ -69,6 +70,7 @@ services:
       - "8085:8085"
     networks:
       - eureka-network
+      - loki
 
   inventory-postgres:
     image: postgres:15-alpine
@@ -100,6 +102,8 @@ services:
       - "8083:8083"
     networks:
       - eureka-network
+      - loki
+
 
 
   payment-postgres:
@@ -175,6 +179,7 @@ services:
       - "8082:8082"
     networks:
       - eureka-network
+      - loki
 
 
   loki:
@@ -229,7 +234,7 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:25.0.5
     ports:
-      - 9090:8080
+      - 9091:8080
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
