@@ -33,11 +33,18 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE: openid
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID: Mi-app
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_SECRET: 999SoGQBdCXpsHbKkIKNhBw3JUfMXrFy
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI: http://keycloak:9191/realms/Microservices-started
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_AUTHORIZATION_GRANT_TYPE: password
+#      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_REDIRECT_URI: "{baseUrl}/login/oauth2/code/keycloak"
     ports:
-      - "8089:8080"
+      - "8080:8080"
     networks:
         - eureka-network
         - loki
+        - keycloak
 
   order-postgres:
     image: postgres:15-alpine
@@ -66,6 +73,8 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd1
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/   
+      spring_security_oauth2_resourceserver_jwt_jwk-set-uri: http://keycloak:9191/realms/Microservices-started/protocol/openid-connect/certs
     ports:
       - "8085:8085"
     networks:
@@ -98,11 +107,14 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd2
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      spring_security_oauth2_resourceserver_jwt_jwk-set-uri: http://keycloak:9191/realms/Microservices-started/protocol/openid-connect/certs
     ports:
       - "8083:8083"
     networks:
       - eureka-network
       - loki
+      - keycloak
 
 
 
@@ -146,11 +158,13 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd3
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      spring_security_oauth2_resourceserver_jwt_jwk-set-uri: http://keycloak:9191/realms/Microservices-started/protocol/openid-connect/certs
     ports:
       - "8084:8084"
     networks:
       - eureka-network
       - loki
+      - keycloak
 
   mongo:
     image: mongo:6.0
@@ -175,11 +189,13 @@ services:
       SPRING_CACHE_TYPE: redis
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
+      spring_security_oauth2_resourceserver_jwt_jwk-set-uri: http://keycloak:9191/realms/Microservices-started/protocol/openid-connect/certs
     ports:
       - "8082:8082"
     networks:
       - eureka-network
       - loki
+      - keycloak
 
 
   loki:
@@ -234,15 +250,28 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:25.0.5
     ports:
-      - 9091:8080
+      - 9191:9191
+    expose:
+      - 9191
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
+      KC_HTTP_PORT: 9191
     volumes:
       - keycloak_data:/opt/keycloak/data
     command:
       - 'start-dev'
+    networks:
+      - keycloak
 
+  curl:
+    image: curlimages/curl:latest
+    container_name: curl-client
+    entrypoint: [ "tail", "-f", "/dev/null" ]  # mantiene el contenedor en ejecución
+    networks:
+      - eureka-network
+      - loki
+      - keycloak
 
 volumes:
   order_pgdata:
@@ -254,4 +283,9 @@ volumes:
 networks:
   eureka-network:
     driver: bridge
+
   loki:
+    driver: bridge
+
+  keycloak:
+    driver: bridge
