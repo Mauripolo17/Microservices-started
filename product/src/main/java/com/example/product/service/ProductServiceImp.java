@@ -49,4 +49,9 @@ public class ProductServiceImp implements ProductService {
                 }
         );
     }
+
+    @Override
+    public List<Product> getProductsByIds(List<UUID> ids) {
+        return productRepository.findAllById(ids);
+    }
 }

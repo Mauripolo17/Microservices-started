@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -47,4 +48,16 @@ public class InventoryController {
         inventoryService.deleteById(id);
         return null;
     }
+
+    @PostMapping("/check-inventories")
+    public Mono<Boolean> checkInventory(@RequestBody List<UUID> productIds) {
+        return Mono.justOrEmpty(inventoryService.areInventoriesAvailable(productIds));
+    }
+
+    @PutMapping("/update-inventories")
+    public Flux<Inventory> updateInventories(@RequestBody List<UUID> productIds) {
+        return Flux.fromIterable(inventoryService.updateInventoryAvailability(productIds));
+    }
+
+
 }

@@ -49,4 +49,26 @@ public class InventoryServiceImp implements InventoryService {
     public void deleteById(UUID id) {
         inventoryRepository.deleteById(id);
     }
+
+    @Override
+    public Boolean areInventoriesAvailable(List<UUID> productIds) {
+        for (UUID productId : productIds) {
+            Optional<Inventory> inventory = inventoryRepository.findById(productId);
+            if (inventory.isPresent() && inventory.get().getQuantity()>1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<Inventory> updateInventoryAvailability(List<UUID> productIds) {
+        for (UUID id : productIds) {
+            Optional<Inventory> inventory = inventoryRepository.findById(id);
+            if (inventory.isPresent() && inventory.get().getQuantity()>1) {
+                inventory.get().setQuantity(inventory.get().getQuantity()-1);
+            }
+        }
+        return inventoryRepository.findAll();
+    }
 }

@@ -14,4 +14,6 @@ public interface InventoryService {
     Optional<Inventory> findByProductId(UUID id);
     Optional<Inventory> update(UUID id, Inventory inventory);
     void deleteById(UUID id);
+    Boolean areInventoriesAvailable(List<UUID> productIds);
+    List<Inventory> updateInventoryAvailability(List<UUID> productIds);
 }

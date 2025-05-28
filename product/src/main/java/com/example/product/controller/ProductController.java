@@ -45,4 +45,10 @@ public class ProductController {
         productService.deleteProduct(id);
         return Mono.empty();
     }
+
+    @PostMapping("/all-products")
+    public Flux<Product> getAllProducts(@RequestBody List<UUID> productsIds) {
+        return Flux.fromIterable(productService.getProductsByIds(productsIds));
+    }
+
 }
