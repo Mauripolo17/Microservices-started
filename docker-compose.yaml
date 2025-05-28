@@ -243,6 +243,15 @@ services:
     command:
       - 'start-dev'
 
+  zipkin:
+    image: openzipkin/zipkin
+    restart: always
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
+    networks:
+      - eureka-network
 
 volumes:
   order_pgdata:
