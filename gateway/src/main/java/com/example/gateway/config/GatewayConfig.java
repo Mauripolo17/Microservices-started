@@ -1,19 +1,28 @@
 package com.example.gateway.config;
 
 import com.example.gateway.filters.LoggingFilter;
+import com.example.gateway.filters.ProductCacheFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 public class GatewayConfig {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public GatewayConfig(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder, LoggingFilter loggingFilter) {
         return builder.routes()
                 .route("product-service", r -> r.path("/api/product/**")
                         .filters(f -> f
+                                .filter(new ProductCacheFilter(redisTemplate))
                                 .circuitBreaker(config -> config
                                         .setName("productCircuitBreaker")
                                         .setFallbackUri("forward:/serviceFallback/Product"))

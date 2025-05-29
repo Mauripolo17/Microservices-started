@@ -22,9 +22,12 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+
+
             long requestId = COUNTER.getAndIncrement();
             long startTime = System.currentTimeMillis();
             var request = exchange.getRequest();
+            logger.info("Request: {}", request.getHeaders());
 
             logger.info("[{}] Incoming {} {} from {}",
                     requestId,

@@ -2,6 +2,7 @@ package com.example.product.controller;
 
 import com.example.product.entity.Product;
 import com.example.product.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,7 +25,8 @@ public class ProductController {
         return Mono.justOrEmpty(productService.getProductById(id));
     }
 
-    @GetMapping
+    @GetMapping("/All")
+    @PreAuthorize("hasRole('user')")
     public Flux<Product> getAllProducts() {
         return Flux.fromIterable(productService.getAllProducts());
     }

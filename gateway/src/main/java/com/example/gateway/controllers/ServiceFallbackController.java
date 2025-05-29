@@ -30,7 +30,7 @@ public class ServiceFallbackController {
         if (products != null) {
             return ResponseEntity.ok(products);
         } else {
-            return ResponseEntity.status(503).body("No hay productos en caché");
+            return ResponseEntity.status(503).body("Product service is currently unavailable. Please try again later");
         }
     }
 

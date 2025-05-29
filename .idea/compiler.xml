@@ -11,7 +11,7 @@
         <module name="service-discovery" />
         <module name="gateway" />
       </profile>
-      <profile name="Annotation profile for payment" enabled="true">
+      <profile name="Annotation profile for product" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,8 +19,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="Order" />
-        <module name="payment" />
         <module name="product" />
+        <module name="payment" />
         <module name="inventory" />
         <module name="order" />
       </profile>
