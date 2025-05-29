@@ -264,14 +264,15 @@ services:
     networks:
       - keycloak
 
-  curl:
-    image: curlimages/curl:latest
-    container_name: curl-client
-    entrypoint: [ "tail", "-f", "/dev/null" ]  # mantiene el contenedor en ejecución
+  zipkin:
+    image: openzipkin/zipkin
+    restart: always
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
     networks:
       - eureka-network
-      - loki
-      - keycloak
 
 volumes:
   order_pgdata:
