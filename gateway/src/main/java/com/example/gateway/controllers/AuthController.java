@@ -21,7 +21,7 @@ public class AuthController {
     private final WebClient webClient;
 
     public AuthController(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:9191/realms/Microservices-started/protocol/openid-connect").build();
+        this.webClient = webClientBuilder.baseUrl("http://keycloak:9191/realms/Microservices-started/protocol/openid-connect").build();
     }
 
     @PostMapping("/login")

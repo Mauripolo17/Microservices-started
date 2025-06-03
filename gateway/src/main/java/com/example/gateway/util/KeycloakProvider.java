@@ -8,13 +8,13 @@ import org.keycloak.admin.client.resource.UsersResource;
 
 public class KeycloakProvider {
 
-    private static final String SERVER_URL = "http://localhost:9090";
+    private static final String SERVER_URL = "http://localhost:9191";
     private static final String REALM_NAME = "Mi-app";
     private static final String REALM_MASTER = "master";
     private static final String ADMIN_CLI = "admin-cli";
     private static final String USER_CONSOLE = "admin";
     private static final String PASSWORD_CONSOLE = "password";
-    private static final String CLIENT_SECRET = "6OWBXVCcEjqm7vEyMyRlvHKDCoPtLTXO";
+    private static final String CLIENT_SECRET = "999SoGQBdCXpsHbKkIKNhBw3JUfMXrFy";
 
     public static RealmResource getRealmResource() {
         Keycloak keycloak = KeycloakBuilder.builder()

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,12 +27,9 @@ public class PaymentController {
 
     @GetMapping()
     @PreAuthorize("hasRole('ROLE_admin')")
-    public Flux<Payment> getPayments() {
-        MDC.put("requestId", "abc123");
-        MDC.put("userId", "42");
-        LOGGER.info("Procesando la solicitud del usuario");
-        MDC.clear();
-
+    public Flux<Payment> getPayments(@RequestHeader Map<String, String> headers) {
+        headers.forEach((key, value) -> System.out.println(key + ": " + value));
+        LOGGER.info("Procesando la solicitud del usuario", headers);
         return Flux.fromIterable(paymentService.getAllPayments());
     }
 
