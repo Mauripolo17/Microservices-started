@@ -1,5 +1,6 @@
 package com.example.inventory.controllers;
 
+import com.example.inventory.dtos.BaseResponse;
 import com.example.inventory.entities.Inventory;
 import com.example.inventory.services.InventoryService;
 import org.springframework.web.bind.annotation.*;
@@ -49,15 +50,16 @@ public class InventoryController {
         return null;
     }
 
-    @PostMapping("/check-inventories")
-    public Mono<Boolean> checkInventory(@RequestBody List<UUID> productIds) {
-        return Mono.justOrEmpty(inventoryService.areInventoriesAvailable(productIds));
+    @GetMapping("/is-in-stock/{productId}")
+    public Mono<Boolean> isInStock(@PathVariable("productId")  UUID productId) {
+        return Mono.fromCallable(()->inventoryService.isInStock(productId));
     }
 
-    @PutMapping("/update-inventories")
-    public Flux<Inventory> updateInventories(@RequestBody List<UUID> productIds) {
-        return Flux.fromIterable(inventoryService.updateInventoryAvailability(productIds));
+    @PostMapping("/in-stock")
+    public Mono<BaseResponse> areInStock(@RequestBody List<UUID> productIds){
+        return Mono.fromCallable(()->inventoryService.areInStock(productIds));
     }
+
 
 
 }
