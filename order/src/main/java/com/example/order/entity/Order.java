@@ -22,7 +22,7 @@ public class Order {
     @ElementCollection(fetch = FetchType.EAGER) // Permite almacenar listas de valores simples en la base de datos
     private List<UUID> products;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UUID payment;
 
     public UUID getId() {

@@ -57,7 +57,7 @@ class OrderServiceTest {
     }
 
     @Test
-    void save() {
+    void save() throws IllegalAccessException {
         // Arrange
         Order order = new Order();
         order.setId(UUID.randomUUID());

@@ -13,7 +13,7 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    Order save(Order order);
+    Order save(Order order) throws IllegalAccessException;
 
     void deleteById(UUID id);
 
