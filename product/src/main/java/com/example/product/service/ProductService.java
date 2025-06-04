@@ -12,5 +12,6 @@ public interface ProductService {
     void deleteProduct(UUID id);
     Product saveProduct(Product product);
     Optional<Product> updateProduct(UUID id, Product product);
+    List<Product> getProductsByIds(List<UUID> ids);
 
 }

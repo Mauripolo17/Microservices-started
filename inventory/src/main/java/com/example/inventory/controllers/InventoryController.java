@@ -1,11 +1,13 @@
 package com.example.inventory.controllers;
 
+import com.example.inventory.dtos.BaseResponse;
 import com.example.inventory.entities.Inventory;
 import com.example.inventory.services.InventoryService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -47,4 +49,17 @@ public class InventoryController {
         inventoryService.deleteById(id);
         return null;
     }
+
+    @GetMapping("/is-in-stock/{productId}")
+    public Mono<Boolean> isInStock(@PathVariable("productId")  UUID productId) {
+        return Mono.fromCallable(()->inventoryService.isInStock(productId));
+    }
+
+    @PostMapping("/in-stock")
+    public Mono<BaseResponse> areInStock(@RequestBody List<UUID> productIds){
+        return Mono.fromCallable(()->inventoryService.areInStock(productIds));
+    }
+
+
+
 }
