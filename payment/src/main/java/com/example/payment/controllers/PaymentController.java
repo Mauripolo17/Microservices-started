@@ -26,7 +26,7 @@ public class PaymentController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasRole('ROLE_admin')")
+    @PreAuthorize("hasRole('admin')")
     public Flux<Payment> getPayments(@RequestHeader Map<String, String> headers) {
         headers.forEach((key, value) -> System.out.println(key + ": " + value));
         LOGGER.info("Procesando la solicitud del usuario", headers);
